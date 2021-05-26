@@ -56,13 +56,35 @@ public class MineBoard {
             if (!dupe) {
                 hm.put((temp+j) % nMines,temp);
             }
-
         }
 
         System.out.println(hm);
 
-        // Add mines to board and adjust values
+        // Adjust values around mine positions
+        for (int i = 0; i < nMines; i++) {
+            int tempX = hm.get(i) / width;
+            int tempY = hm.get(i) % height;
 
+            for (int j = -1; j <= 1; j++) {
+                if (tempY + j >= 0 && tempY + j < height) {
+                    for (int k = -1; k <= 1; k++) {
+                        if (tempX + k >= 0 && tempX + k < width) {
+                            CellEmpty cell = (CellEmpty)board[tempX+k][tempY+j];
+                            cell.incrementValue();
+                        }
+                    }
+
+                }
+            }
+        }
+
+        // Place mines on the board
+        for (int i = 0; i < nMines; i++) {
+            int tempX = hm.get(i) / width;
+            int tempY = hm.get(i) % height;
+
+            board[tempX][tempY] = new CellMine(tempX,tempY);
+        }
         return true;
     }
 
@@ -70,9 +92,19 @@ public class MineBoard {
         this.nMines = newNMines;
     }
 
+    public void displayBoard() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                System.out.print(board[j][i]);
+            }
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
-        MineBoard board = new MineBoard(10,3,3);
-        board.generateBoard();
+        MineBoard board = new MineBoard(20,10,10);
+        System.out.println(board.generateBoard());
+        board.displayBoard();
     }
     
 

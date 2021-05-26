@@ -15,4 +15,8 @@ public class CellMine extends Cell{
         setVisible(true);
         return false;
     }
+
+    public String toString() {
+        return " * ";
+    }
 }

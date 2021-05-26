@@ -29,7 +29,15 @@ public class CellEmpty extends Cell {
         return value().get();
     }
 
+    public void incrementValue() {
+        this.value.set(getValue() + 1);
+    }
+
     public void setValue(int newValue) {
         this.value.set(newValue);
+    }
+
+    public String toString() {
+        return " " + Integer.toString(getValue()) + " ";
     }
 }
