@@ -2,17 +2,22 @@ package project;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public abstract class Cell {
     private IntegerProperty x, y;
+    private StringProperty text;
     private BooleanProperty visible;
     private BooleanProperty flagged;
 
-    public Cell(int x, int y) {
+    public Cell(int x, int y, String text) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
+        this.text = new SimpleStringProperty(text);
         this.visible = new SimpleBooleanProperty(false);
         this.flagged = new SimpleBooleanProperty(false);
     }
@@ -59,5 +64,12 @@ public abstract class Cell {
         return this.y.get();
     }
 
+    public StringProperty text() {
+        return this.text;
+    }
+
+    public String getText() {
+        return this.text.get();
+    }
 
 }

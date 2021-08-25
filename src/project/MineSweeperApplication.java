@@ -17,10 +17,10 @@ public class MineSweeperApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Conway's Game of Life");
+        primaryStage.setTitle("MineSweeper");
 
-        controller = new MineSweeperController();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOfLifeView.fxml"));
+        controller = new MineSweeperController(10,10,10);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MineSweeperView.fxml"));
         loader.setController(controller);
 
         Parent root = loader.load();

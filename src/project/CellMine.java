@@ -3,7 +3,7 @@ package project;
 public class CellMine extends Cell{
     
     public CellMine(int x, int y) {
-        super(x,y);
+        super(x,y,"x");
     }
 
     @Override
@@ -14,9 +14,5 @@ public class CellMine extends Cell{
         }
         setVisible(true);
         return false;
-    }
-
-    public String toString() {
-        return " * ";
     }
 }

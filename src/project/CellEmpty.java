@@ -7,7 +7,7 @@ public class CellEmpty extends Cell {
     private IntegerProperty value;
 
     public CellEmpty(int x, int y, int value) {
-        super(x,y);
+        super(x,y,Integer.toString(value));
         this.value = new SimpleIntegerProperty(value);
     }
 

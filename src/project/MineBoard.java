@@ -1,13 +1,11 @@
 
 package project;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 
 public class MineBoard {
 
@@ -23,17 +21,17 @@ public class MineBoard {
         this.width = width;
         this.height = height;
         this.board = new Cell[width][height];
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                this.board[i][j] = new CellEmpty(i,j,0);
-            }
-        }
     }
 
     public boolean generateBoard() {
         if (nMines > height*width) {
             return false;
+        }
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                this.board[i][j] = new CellEmpty(i,j,0);
+            }
         }
         // Generate random mines
         // Create hashmap with
@@ -92,6 +90,24 @@ public class MineBoard {
         this.nMines = newNMines;
     }
 
+    public int getWidth() {
+        return this.width;
+    }
+
+    public void setWidth(int newWidth) {
+        this.width = newWidth;
+        this.board = new Cell[width][height];
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public void setHeight(int newHeight) {
+        this.height = newHeight;
+        this.board = new Cell[width][height];
+    }
+
     public void displayBoard() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -99,6 +115,14 @@ public class MineBoard {
             }
             System.out.println();
         }
+    }
+
+    public StringProperty getCellTextProperty(int x, int y) {
+        return board[x][y].text();
+    }
+
+    public BooleanProperty getCellVisibleProperty(int x, int y) {
+        return board[x][y].visible();
     }
 
     public static void main(String[] args) {
