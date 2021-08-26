@@ -3,11 +3,14 @@ package project;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.util.Duration;
 import javafx.animation.Timeline;
@@ -30,20 +33,20 @@ public class MineSweeperController {
     @FXML
     private GridPane gridPane;
 
-    @FXML
-    private Button resetButton;
+    // @FXML
+    // private Button resetButton;
 
-    @FXML
-    private Button playButton;
+    // @FXML
+    // private Button playButton;
 
-    @FXML
-    private TextField nMinesText;
+    // @FXML
+    // private TextField nMinesText;
 
-    @FXML
-    private TextField widthText;
+    // @FXML
+    // private TextField widthText;
 
-    @FXML
-    private TextField heightText;
+    // @FXML
+    // private TextField heightText;
     
 
     public MineSweeperController(int nRows, int nCols, int nMines) {
@@ -60,15 +63,15 @@ public class MineSweeperController {
 
     }
 
-    @FXML
-    public void handleResetButton(ActionEvent event) {
+    // @FXML
+    // public void handleResetButton(ActionEvent event) {
         
-    }
+    // }
 
-    @FXML
-    public void handlePlayButton(ActionEvent event) {
+    // @FXML
+    // public void handlePlayButton(ActionEvent event) {
         
-    }
+    // }
 
     // @FXML
     // public void handlePlayButton(ActionEvent event) {
@@ -84,26 +87,22 @@ public class MineSweeperController {
     @FXML
     public void initialize(){
         board.generateBoard();
-        for (int rowIndex = 0; rowIndex < board.getHeight(); rowIndex++) {
-            RowConstraints rc = new RowConstraints();
-            rc.setVgrow(Priority.ALWAYS);
-            rc.setFillHeight(true);
-            gridPane.getRowConstraints().add(rc);
-        }
-
-        for (int colIndex = 0; colIndex < board.getHeight(); colIndex++) {
-            ColumnConstraints cc = new ColumnConstraints();
-            cc.setHgrow(Priority.ALWAYS);
-            cc.setFillWidth(true);
-            gridPane.getColumnConstraints().add(cc);
-        }
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                Button button = new Button();
-                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                board.getCellTextProperty(i, j).bindBidirectional(button.textProperty());
-                board.getCellVisibleProperty(i, j).bindBidirectional(button.visibleProperty());
+                ToggleButton button = new ToggleButton();
+                button.setFont(Font.font("Courier New", FontWeight.EXTRA_BOLD, 10));
+                button.setMinSize(25, 25);
+                button.textProperty().bindBidirectional(board.getCellTextProperty(i, j));
+                button.selectedProperty().bindBidirectional(board.getCellVisibleProperty(i, j));
+
+                final int finalI = i;
+                final int finalJ = j;
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override public void handle (ActionEvent e) {
+                        board.uncoverCell(finalI, finalJ);
+                    }
+                });
                 gridPane.add(button, i, j);
             }
         }

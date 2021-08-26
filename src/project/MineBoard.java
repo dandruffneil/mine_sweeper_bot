@@ -81,7 +81,9 @@ public class MineBoard {
             int tempX = hm.get(i) / width;
             int tempY = hm.get(i) % height;
 
-            board[tempX][tempY] = new CellMine(tempX,tempY);
+            CellEmpty cell = (CellEmpty)board[tempX][tempY];
+            Mine mine = new Mine();
+            cell.addItem(mine);
         }
         return true;
     }
@@ -111,18 +113,48 @@ public class MineBoard {
     public void displayBoard() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                System.out.print(board[j][i]);
+                System.out.print(" " + board[j][i].toString() + " ");
             }
             System.out.println();
         }
     }
 
     public StringProperty getCellTextProperty(int x, int y) {
-        return board[x][y].text();
+        return board[x][y].label();
     }
 
     public BooleanProperty getCellVisibleProperty(int x, int y) {
         return board[x][y].visible();
+    }
+
+    public boolean uncoverCell(int x, int y) {
+        if (!board[x][y].uncover()) {
+            System.out.println("early exit");
+            return false;
+        }
+
+        CellEmpty currCell = (CellEmpty)board[x][y];
+        
+        if (currCell.getValue() == 0) {
+            for (int i = -1; i <= 1; i++) {
+                if (y + i >= 0 && y + i < height) {
+                    for (int j = -1; j <= 1; j++) {
+                        if (x + j >= 0 && x + j < width) {
+                            CellEmpty cell = (CellEmpty)board[x+j][y+i];
+                            // System.out.println("- " + Integer.toString(x+j) + " " + Integer.toString(y+i));
+                            // System.out.print(cell.getValue());
+                            // System.out.println(cell.getVisible());
+                            if (cell.isItemsEmpty() && cell.getVisible() == false) {
+                                this.uncoverCell(x+j,y+i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        return true;
     }
 
     public static void main(String[] args) {
