@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseButton;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -33,20 +34,20 @@ public class MineSweeperController {
     @FXML
     private GridPane gridPane;
 
-    // @FXML
-    // private Button resetButton;
+    @FXML
+    private Button resetButton;
 
     // @FXML
     // private Button playButton;
 
-    // @FXML
-    // private TextField nMinesText;
+    @FXML
+    private TextField nMinesText;
 
-    // @FXML
-    // private TextField widthText;
+    @FXML
+    private TextField widthText;
 
-    // @FXML
-    // private TextField heightText;
+    @FXML
+    private TextField heightText;
     
 
     public MineSweeperController(int nRows, int nCols, int nMines) {
@@ -63,10 +64,10 @@ public class MineSweeperController {
 
     }
 
-    // @FXML
-    // public void handleResetButton(ActionEvent event) {
-        
-    // }
+    @FXML
+    public void handleResetButton(ActionEvent event) {
+        initialize();
+    }
 
     // @FXML
     // public void handlePlayButton(ActionEvent event) {
@@ -95,12 +96,23 @@ public class MineSweeperController {
                 button.setMinSize(25, 25);
                 button.textProperty().bindBidirectional(board.getCellTextProperty(i, j));
                 button.selectedProperty().bindBidirectional(board.getCellVisibleProperty(i, j));
+                button.setStyle("-fx-background-color: #f0f0f0;-fx-border-color: #c8c8c8");
+                
 
                 final int finalI = i;
                 final int finalJ = j;
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override public void handle (ActionEvent e) {
+                button.setOnMouseClicked(event ->
+                {
+                    if (event.getButton() == MouseButton.PRIMARY && !board.getFlaggedCell(finalI, finalJ)) {
                         board.uncoverCell(finalI, finalJ);
+                        button.setStyle("-fx-background-color: #d6d6d6;-fx-border-color: #c8c8c8");
+                    } else if (event.getButton() == MouseButton.SECONDARY && !board.getVisibleCell(finalI, finalJ)) {
+                        board.flagCell(finalI, finalJ);
+                        if (board.getFlaggedCell(finalI, finalJ)) {
+                            button.setStyle("-fx-background-color: #ff9e9e;-fx-border-color: #c8c8c8");
+                        } else {
+                            button.setStyle("-fx-background-color: #f0f0f0;-fx-border-color: #c8c8c8");
+                        }
                     }
                 });
                 gridPane.add(button, i, j);

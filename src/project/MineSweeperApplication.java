@@ -20,7 +20,7 @@ public class MineSweeperApplication extends Application {
         primaryStage.setTitle("MineSweeper");
 
         controller = new MineSweeperController(10,10,10);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MineSweeperView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MineSweeperView2.fxml"));
         loader.setController(controller);
 
         Parent root = loader.load();

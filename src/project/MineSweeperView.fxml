@@ -2,15 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <Button fx:id="resetButton" layoutX="40.0" layoutY="56.0" mnemonicParsing="false" onAction="#handleResetButton" style="-fx-background-color: #9bffe7; -fx-border-color: #c8c8c8; -fx-border-width: 2;" text="Reset" />
       <GridPane fx:id="gridPane" layoutX="150.0" layoutY="56.0">
       </GridPane>
+      <Label layoutX="61.0" layoutY="346.0" text="Label" />
    </children>
 </Pane>

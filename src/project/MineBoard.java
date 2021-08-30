@@ -127,6 +127,10 @@ public class MineBoard {
         return board[x][y].visible();
     }
 
+    public boolean getVisibleCell(int x, int y) {
+        return board[x][y].getVisible();
+    }
+
     public boolean uncoverCell(int x, int y) {
         if (!board[x][y].uncover()) {
             System.out.println("early exit");
@@ -155,6 +159,14 @@ public class MineBoard {
         
 
         return true;
+    }
+
+    public void flagCell(int x, int y) {
+        board[x][y].toggleFlag();
+    }
+
+    public boolean getFlaggedCell(int x, int y) {
+        return board[x][y].getFlagged();
     }
 
     public static void main(String[] args) {
