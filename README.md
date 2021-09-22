@@ -10,3 +10,7 @@ the plan:
 
 3. Add other features
     - hint button to find the probability of a cell being clear
+
+
+# NOTES
+- a mine must have a number associated to it.
