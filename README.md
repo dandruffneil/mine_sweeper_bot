@@ -14,3 +14,5 @@ the plan:
 
 # NOTES
 - a mine must have a number associated to it.
+
+- roguelike final game, third person like hades, got weapons and try run around and hit tiles to reveal them, got abilities like scan, mines can spawn big enemies, small enemies keep spawning, keeps you on the move
