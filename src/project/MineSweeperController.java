@@ -87,6 +87,7 @@ public class MineSweeperController {
 
     @FXML
     public void initialize(){
+        gridPane.getChildren().clear();
         board.generateBoard();
 
         for (int i = 0; i < 10; i++) {
@@ -108,11 +109,12 @@ public class MineSweeperController {
                         updateCellColours();
                     } else if (event.getButton() == MouseButton.SECONDARY && !board.getVisibleCell(finalI, finalJ)) {
                         board.flagCell(finalI, finalJ);
-                        if (board.getFlaggedCell(finalI, finalJ)) {
-                            button.setStyle("-fx-background-color: #ff9e9e;-fx-border-color: #c8c8c8");
-                        } else {
-                            button.setStyle("-fx-background-color: #f0f0f0;-fx-border-color: #c8c8c8");
-                        }
+                        updateCellColours();
+                        // if (board.getFlaggedCell(finalI, finalJ)) {
+                        //     button.setStyle("-fx-background-color: #ff9e9e;-fx-border-color: #c8c8c8");
+                        // } else {
+                        //     button.setStyle("-fx-background-color: #f0f0f0;-fx-border-color: #c8c8c8");
+                        // }
                     }
                 });
                 gridPane.add(button, i, j);
@@ -123,9 +125,13 @@ public class MineSweeperController {
     public void updateCellColours() {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
+                int index = i*board.getWidth() + j;
                 if (board.getVisibleCell(i, j)) {
-                    int index = i*board.getWidth() + j;
                     gridPane.getChildren().get(index).setStyle("-fx-background-color: #d6d6d6;-fx-border-color: #c8c8c8");
+                } else if (board.getFlaggedCell(i, j)) {
+                    gridPane.getChildren().get(index).setStyle("-fx-background-color: #ff9e9e;-fx-border-color: #c8c8c8");
+                } else if (!board.getFlaggedCell(i, j)) {
+                    gridPane.getChildren().get(index).setStyle("-fx-background-color: #f0f0f0;-fx-border-color: #c8c8c8");
                 }
             }
         }

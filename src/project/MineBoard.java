@@ -169,6 +169,25 @@ public class MineBoard {
         return board[x][y].getFlagged();
     }
 
+    public boolean isCleared() {
+        int flagCount = 0;
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
+                if (getFlaggedCell(i, j)) {
+                    flagCount++;
+                } else if (!getVisibleCell(i, j)) {
+                    return false;
+                }
+            }
+        }
+
+        if (flagCount == nMines) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         MineBoard board = new MineBoard(20,10,10);
         System.out.println(board.generateBoard());
