@@ -105,7 +105,7 @@ public class MineSweeperController {
                 {
                     if (event.getButton() == MouseButton.PRIMARY && !board.getFlaggedCell(finalI, finalJ)) {
                         board.uncoverCell(finalI, finalJ);
-                        button.setStyle("-fx-background-color: #d6d6d6;-fx-border-color: #c8c8c8");
+                        updateCellColours();
                     } else if (event.getButton() == MouseButton.SECONDARY && !board.getVisibleCell(finalI, finalJ)) {
                         board.flagCell(finalI, finalJ);
                         if (board.getFlaggedCell(finalI, finalJ)) {
@@ -116,6 +116,17 @@ public class MineSweeperController {
                     }
                 });
                 gridPane.add(button, i, j);
+            }
+        }
+    }
+
+    public void updateCellColours() {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                if (board.getVisibleCell(i, j)) {
+                    int index = i*board.getWidth() + j;
+                    gridPane.getChildren().get(index).setStyle("-fx-background-color: #d6d6d6;-fx-border-color: #c8c8c8");
+                }
             }
         }
     }
