@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -26,10 +27,9 @@ import javafx.event.EventHandler;
  * @author Robert Clifton-Everest
  *
  */
-public class MineSweeperController {
+public class MineSweeperController implements GameObserver {
 
     private MineBoard board;
-    private Timeline time;
 
     @FXML
     private GridPane gridPane;
@@ -37,8 +37,8 @@ public class MineSweeperController {
     @FXML
     private Button resetButton;
 
-    // @FXML
-    // private Button playButton;
+    @FXML
+    private Label victoryLabel, defeatLabel;
 
     @FXML
     private TextField nMinesText;
@@ -50,48 +50,43 @@ public class MineSweeperController {
     private TextField heightText;
     
 
-    public MineSweeperController(int nRows, int nCols, int nMines) {
-        this.board = new MineBoard(nRows,nCols,nMines);
-
-        // this.time = new Timeline();
-        // time.setCycleCount(Animation.INDEFINITE);
-        // time.getKeyFrames().add(new KeyFrame(Duration.millis(500),
-        //     new EventHandler<ActionEvent>() {
-        //         @Override public void handle(ActionEvent event) {
-        //             game.tick();
-        //         }
-        //     }));
+    public MineSweeperController() {
+        this.board = new MineBoard(10,10,10);
+        this.board.gameAttach(this);
 
     }
 
     @FXML
     public void handleResetButton(ActionEvent event) {
-        initialize();
+        int height = Integer.parseInt(heightText.getText());
+        int width = Integer.parseInt(widthText.getText());
+        int nMines = Integer.parseInt(nMinesText.getText());
+
+        if (width < 1) {
+            widthText.setStyle("-fx-border-color: #ff0000");
+        } else if (height < 1) {
+            heightText.setStyle("-fx-border-color: #ff0000");
+        } else if (nMines > height * width) {
+            nMinesText.setStyle("-fx-border-color: #ff0000");
+        } else {
+            this.board = new MineBoard(nMines, width, height);
+            this.board.gameAttach(this);
+            widthText.setStyle("");
+            heightText.setStyle("");
+            nMinesText.setStyle("");
+            victoryLabel.setVisible(false);
+            defeatLabel.setVisible(false);
+            initialize();
+        }
     }
-
-    // @FXML
-    // public void handlePlayButton(ActionEvent event) {
-        
-    // }
-
-    // @FXML
-    // public void handlePlayButton(ActionEvent event) {
-    //     if (playButton.getText().equals("Play")) {
-    //         time.play();
-    //         playButton.setText("Stop");
-    //     } else if (playButton.getText().equals("Stop")) {
-    //         time.stop();
-    //         playButton.setText("Play");
-    //     }
-    // }
 
     @FXML
     public void initialize(){
         gridPane.getChildren().clear();
         board.generateBoard();
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < this.board.getWidth(); i++) {
+            for (int j = 0; j < this.board.getHeight(); j++) {
                 ToggleButton button = new ToggleButton();
                 button.setFont(Font.font("Courier New", FontWeight.EXTRA_BOLD, 10));
                 button.setMinSize(25, 25);
@@ -116,6 +111,7 @@ public class MineSweeperController {
                         //     button.setStyle("-fx-background-color: #f0f0f0;-fx-border-color: #c8c8c8");
                         // }
                     }
+                    this.board.checkCleared();
                 });
                 gridPane.add(button, i, j);
             }
@@ -135,6 +131,16 @@ public class MineSweeperController {
                 }
             }
         }
+    }
+
+    @Override
+    public void gameUpdate(boolean victory) {
+        if (victory) {
+            victoryLabel.setVisible(true);
+        } else {
+            defeatLabel.setVisible(true);
+        }
+        
     }
 
 }

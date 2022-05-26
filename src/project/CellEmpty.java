@@ -7,24 +7,18 @@ public class CellEmpty extends Cell {
     private IntegerProperty value;
 
     public CellEmpty(int x, int y, int value) {
-        super(x,y,Integer.toString(value));
+        super(x,y);
         this.value = new SimpleIntegerProperty(value);
+        updateText();
     }
 
     @Override
-    public boolean uncover() {
+    public void uncover() {
         // if cell flagged or already uncovered, do nothing
         // if (getFlagged() || getVisible()) {
         //     return true;
         // }
         setVisible(true);
-        for (Item i : getItems()) {
-            i.trigger();
-            if (i.getDamage() < 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public IntegerProperty value() {
@@ -37,12 +31,20 @@ public class CellEmpty extends Cell {
 
     public void incrementValue() {
         this.value.set(getValue() + 1);
-        this.setText(Integer.toString(getValue()));
+        updateText();
     }
 
     public void setValue(int newValue) {
         this.value.set(newValue);
-        this.setText(Integer.toString(newValue));
+        updateText();
+    }
+
+    public void updateText() {
+        if (value().get() == 0) {
+            this.setText(" ");
+        } else {
+            this.setText(Integer.toString(value().get()));
+        }
     }
 
 }

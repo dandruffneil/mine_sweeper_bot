@@ -12,40 +12,20 @@ import java.util.List;
 
 public abstract class Cell {
     private IntegerProperty x, y;
-    private String text;
-    private StringProperty label;
+    private StringProperty label;       // What is displayed in the program
+    private String text;                // Original text
     private BooleanProperty visible;
     private BooleanProperty flagged;
-    private List<Item> items;
 
-    public Cell(int x, int y, String text) {
+    public Cell(int x, int y) {
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
-        this.text = text;
         this.label = new SimpleStringProperty(" ");
         this.visible = new SimpleBooleanProperty(false);
         this.flagged = new SimpleBooleanProperty(false);
-        this.items = new ArrayList<>();
     }
 
-    abstract public boolean uncover();
-
-    protected List<Item> getItems() {
-        return this.items;
-    }
-
-    public void addItem(Item item) {
-        this.items.add(item);
-        this.setText(item.getText());
-    }
-
-    public boolean isItemsEmpty() {
-        return this.items.isEmpty();
-    }
-
-    public void clearItems() {
-        this.items.clear();
-    }
+    abstract public void uncover();
     
     public void toggleFlag() {
         this.flagged.set(!this.flagged.get());
@@ -101,7 +81,11 @@ public abstract class Cell {
     }
 
     public void setLabel(String label) {
-        this.label.set(label);
+        if (label == "0") {
+            this.label.set(" ");
+        } else {
+            this.label.set(label);
+        }
     }
 
     public String getText() {
